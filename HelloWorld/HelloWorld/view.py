@@ -21,8 +21,11 @@ def login(request):
 def veritify(request):
     request.encoding='utf-8'
     response = ""
-    list = userinfo.objects.all()
-    for var in list:
+    LIST = userinfo.objects.all()
+    fo=open("/tmp/test.txt","w")
+    fo.write("LIST")
+    fo.close()
+    for var in LIST:
         if var.Mail == request.GET["Mail"]:
             account={}
             account={
@@ -41,10 +44,7 @@ def regist(request):
     Phone = request.GET["Phone"]
     TITLE="VPN_verification_code"
     sendmail="echo " + MailCode + "| mail -s "  + TITLE + " "+ Mail
-    fo=open("/tmp/test.txt","w")
-    fo.write(sendmail)
-    fo.close()
-    insert=userinfo(Mail,Phone)
+    insert=userinfo(Mail=Mail,Phone=Phone)
     insert.save()
 #    os.system(sendmail)
     return render(request,"code.html")
@@ -66,9 +66,9 @@ def insert(request):
 def search(request):
     response = ""
     response1 = ""
-    list = userinfo.objects.all()
+    LIST = userinfo.objects.all()
     response = userinfo.objects.filter(id=1)
-    for var in list:
+    for var in LIST:
         response1 += var.Mail
     response = response1
     return HttpResponse(response)
